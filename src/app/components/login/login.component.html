@@ -1,0 +1,330 @@
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mx-auto bg-main-light p-4 rounded my-4">
+        <h1 class="text-capitalize fw-bold text-main mb-3">Login now :</h1>
+        <h2
+          *ngIf="errorMessage"
+          class="alert alert-danger rounded text-capitalize"
+        >
+          {{ errorMessage }} !
+        </h2>
+        <form [formGroup]="loginForm" (ngSubmit)="handleForm()">
+          <div class="mb-2">
+            <label for="email" class="text-capitalize mb-1">email :</label>
+            <input
+              formControlName="email"
+              id="email"
+              type="email"
+              class="form-control"
+            />
+
+            <div
+              class="alert alert-danger mt-2 p-2"
+              *ngIf="
+                loginForm.get('email')?.errors &&
+                loginForm.get('email')?.touched
+              "
+            >
+              <p *ngIf="loginForm.get('email')?.getError('required')">
+                Email Is required
+              </p>
+              <p *ngIf="loginForm.get('email')?.getError('email')">
+                Email Is InValid
+              </p>
+            </div>
+          </div>
+
+          <div class="mb-2">
+            <label for="password" class="text-capitalize mb-1"
+              >password :</label
+            >
+            <input
+              formControlName="password"
+              id="password"
+              type="password"
+              class="form-control"
+            />
+
+            <div
+              class="alert alert-danger mt-2 p-2"
+              *ngIf="
+                loginForm.get('password')?.errors &&
+                loginForm.get('password')?.touched
+              "
+            >
+              <p *ngIf="loginForm.get('password')?.getError('required')">
+                Password Is required
+              </p>
+              <p *ngIf="loginForm.get('password')?.getError('pattern')">
+                Password must be at least 6 chars
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-3 d-flex justify-content-end">
+            <!-- Button trigger modal -->
+            <button
+              type="button"
+              class="btn btn-outline-danger me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Forget Password ?
+            </button>
+
+            <button class="btn-main" [disabled]="loginForm.invalid">
+              Login
+              <i
+                *ngIf="isLoading"
+                class="ms-2 fa-solid fa-spinner fa-spin-pulse"
+              ></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--^======================================== forget password all processes Modal ================================= -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h1 class="modal-title fs-4 fw-bold" id="exampleModalLabel">
+          <!-- <i class="fa-solid fa-server fa-fade me-2 text-dark"></i>
+          <i class="fa-solid fa-gear fa-fade text-dark"></i> -->
+          <img src="assets/images/settings.gif" alt="..." />
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!--* 3 forms is here -->
+        <!-- ^ ============= start Form 1  =====================-->
+        <div *ngIf="forgetFlag == true">
+          <h3
+            class="text-main text-center fw-bolder text-uppercase d-flex align-items-center justify-content-evenly"
+          >
+            <span> Registered Email</span>
+            <img src="assets/images/email1.png" alt="..." />
+          </h3>
+
+          <h6
+            *ngIf="forgetPasswordMessageSuccess"
+            class="alert alert-info rounded text-capitalize"
+          >
+            {{ forgetPasswordMessageSuccess }}
+          </h6>
+          <h6
+            *ngIf="forgetPasswordMessageError"
+            class="alert alert-danger rounded text-capitalize"
+          >
+            {{ forgetPasswordMessageError }} ❌
+          </h6>
+
+          <form
+            [formGroup]="forgetForm"
+            (ngSubmit)="forgetPasswordMethod()"
+            class="bg-white shadow-lg p-3 rounded"
+          >
+            <div class="mb-2">
+              <label for="registeredEmail" class="text-capitalize mb-1"
+                >email :</label
+              >
+              <input
+                placeholder="Please Enter Your Registered Email "
+                formControlName="email"
+                id="registeredEmail"
+                type="email"
+                class="form-control"
+              />
+              <div
+                class="alert alert-danger mt-2 p-2"
+                *ngIf="
+                  forgetForm.get('email')?.errors &&
+                  forgetForm.get('email')?.touched
+                "
+              >
+                <p *ngIf="forgetForm.get('email')?.getError('required')">
+                  Email Is required
+                </p>
+                <p *ngIf="forgetForm.get('email')?.getError('email')">
+                  Email Is InValid
+                </p>
+              </div>
+            </div>
+
+            <button
+              class="btn-main d-block ms-auto"
+              [disabled]="forgetForm.invalid"
+            >
+              Send Email
+              <i
+                *ngIf="isLoading"
+                class="ms-2 fa-solid fa-spinner fa-spin-pulse"
+              ></i>
+            </button>
+          </form>
+          <hr />
+        </div>
+        <!-- ^ ============= end Form 1  =====================-->
+
+        <!-- ^ ============= start Form 2  =====================-->
+
+        <div *ngIf="verifyFlag == true">
+          <h3 class="text-main text-center fw-bolder text-uppercase">
+            Verification Code <img src="assets/images/pin.png" alt="..." />
+          </h3>
+
+          <form
+            [formGroup]="verifyForm"
+            (ngSubmit)="verifyCodeMethod()"
+            class="bg-white shadow-lg p-3 rounded"
+          >
+            <div class="mb-2">
+              <label for="resetCode" class="text-capitalize mb-1"
+                >Verification Code :</label
+              >
+              <input
+                placeholder="Enter 6 Digits verification Code "
+                formControlName="resetCode"
+                id="resetCode"
+                type="text"
+                class="form-control"
+              />
+
+              <div
+                class="alert alert-danger mt-2 p-2"
+                *ngIf="
+                  verifyForm.get('resetCode')?.errors &&
+                  verifyForm.get('resetCode')?.touched
+                "
+              >
+                <p *ngIf="verifyForm.get('resetCode')?.getError('required')">
+                  Reset Code Is required
+                </p>
+              </div>
+            </div>
+
+            <button
+              class="btn-main d-block ms-auto"
+              [disabled]="verifyForm.invalid"
+            >
+              Verify Code
+              <i
+                *ngIf="isLoading"
+                class="ms-2 fa-solid fa-spinner fa-spin-pulse"
+              ></i>
+            </button>
+          </form>
+          <hr />
+        </div>
+
+        <!-- ^ ============= end Form 2  =====================-->
+
+        <!-- ^ ============= start Form 3  =====================-->
+
+        <div *ngIf="newPasswordflag == true">
+          <h3 class="text-main text-center fw-bolder text-uppercase">
+            Set New Password <img src="assets/images/password.png" alt="..." />
+          </h3>
+
+          <form
+            [formGroup]="newPasswordForm"
+            (ngSubmit)="newPasswordMethod()"
+            class="bg-white shadow-lg p-3 rounded"
+          >
+            <div class="mb-2">
+              <label for="userEmail" class="text-capitalize mb-1"
+                >email :</label
+              >
+              <input
+                formControlName="email"
+                id="userEmail"
+                type="email"
+                class="form-control"
+              />
+
+              <div
+                class="alert alert-danger mt-2 p-2"
+                *ngIf="
+                  newPasswordForm.get('email')?.errors &&
+                  newPasswordForm.get('email')?.touched
+                "
+              >
+                <p *ngIf="newPasswordForm.get('email')?.getError('required')">
+                  Email Is required
+                </p>
+                <p *ngIf="newPasswordForm.get('email')?.getError('email')">
+                  Email Is InValid
+                </p>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <label for="newPassword" class="text-capitalize mb-1"
+                >password :</label
+              >
+              <input
+                formControlName="newPassword"
+                id="newPassword"
+                type="password"
+                class="form-control"
+              />
+
+              <div
+                class="alert alert-danger mt-2 p-2"
+                *ngIf="
+                  newPasswordForm.get('newPassword')?.errors &&
+                  newPasswordForm.get('newPassword')?.touched
+                "
+              >
+                <p
+                  *ngIf="
+                    newPasswordForm.get('newPassword')?.getError('required')
+                  "
+                >
+                  Password Is required
+                </p>
+                <p
+                  *ngIf="
+                    newPasswordForm.get('newPassword')?.getError('pattern')
+                  "
+                >
+                  Password must be at least 6 chars
+                </p>
+              </div>
+            </div>
+
+            <button
+              class="btn-main d-block ms-auto"
+              [disabled]="newPasswordForm.invalid"
+            >
+              Conform
+              <i
+                *ngIf="isLoading"
+                class="ms-2 fa-solid fa-spinner fa-spin-pulse"
+              ></i>
+            </button>
+          </form>
+          <hr />
+        </div>
+
+        <!-- ^ ============= end Form 3  =====================-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--^======================================== forget password all processes Modal ================================= -->

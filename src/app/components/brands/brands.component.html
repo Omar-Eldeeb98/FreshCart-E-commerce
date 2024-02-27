@@ -1,0 +1,83 @@
+<section class="my-4">
+  <div class="container-fluid">
+    <h1 class="h2 fw-bold my-3 text-main">All Brands :</h1>
+    <div class="row gy-3">
+      <div
+        (click)="getABrand(x._id)"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+        class="col-md-2 cursor-pointer"
+        *ngFor="
+          let x of brands
+            | paginate
+              : {
+                  id: 'productPaginate',
+                  itemsPerPage: pageSize,
+                  currentPage: currentPage,
+                  totalItems: total
+                }
+        "
+      >
+        <div class="brand_container border border-1 border-success rounded">
+          <img
+            class="w-100 img-thumbnail shadow"
+            [src]="x.image"
+            [alt]="x.name"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center mt-5">
+    <pagination-controls
+      id="productPaginate"
+      (pageChange)="pageChanged($event)"
+      (pageBoundsCorrection)="pageChanged($event)"
+      [maxSize]="9"
+      [directionLinks]="true"
+      [autoHide]="true"
+      [responsive]="true"
+      previousLabel="Previous"
+      nextLabel="Next"
+      screenReaderPaginationLabel="Pagination"
+      screenReaderPageLabel="page"
+      screenReaderCurrentLabel="You're on page"
+    >
+    </pagination-controls>
+  </div>
+</section>
+
+<!--!============================ modal---==========================================-->
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 fw-bold text-main" id="exampleModalLabel">
+          {{ specificBrand.name }}
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body p-4">
+        <img
+          [src]="specificBrand.image"
+          alt="..."
+          class="w-100 img-thumbnail shadow"
+        />
+      </div>
+    </div>
+  </div>
+</div>

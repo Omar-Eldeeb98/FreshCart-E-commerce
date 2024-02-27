@@ -1,0 +1,47 @@
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mx-auto m-5">
+        <div class="shadow-lg p-4 rounded border border-1 border-success">
+          <h1 class="h2 mb-4 text-main fw-bold">
+            Check-Out <i class="ms-2 fa-solid fa-money-check-dollar"></i>
+          </h1>
+          <form [formGroup]="orderForm" (ngSubmit)="handleForm()">
+            <div class="form_item mb-3">
+              <label for="details" class="mb-2">Details :</label>
+              <input
+                type="text"
+                id="details"
+                formControlName="details"
+                class="form-control"
+                placeholder="details Pls "
+              />
+            </div>
+            <div class="form_item mb-3">
+              <label for="phone" class="mb-2">Phone :</label>
+              <input
+                type="tel"
+                id="phone"
+                formControlName="phone"
+                class="form-control"
+                placeholder="your phone number pls"
+              />
+            </div>
+            <div class="form_item mb-3">
+              <label for="city" class="mb-2">City :</label>
+              <input
+                type="text"
+                id="city"
+                formControlName="city"
+                class="form-control"
+                placeholder="your city "
+              />
+            </div>
+
+            <button class="btn-main">Confirm The Payment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

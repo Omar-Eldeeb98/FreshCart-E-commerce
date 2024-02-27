@@ -1,0 +1,44 @@
+<section>
+  <div class="container">
+    <div class="row mt-3 gy-3" *ngIf="oneProduct">
+      <div class="col-md-4">
+        <div
+          class="product_image_container shadow-sm rounded p-1 border border-1 border-success"
+        >
+          <div class="mt-2">
+            <owl-carousel-o [options]="customOptions">
+              <ng-container *ngFor="let x of oneProduct?.images">
+                <ng-template carouselSlide [id]="x.id">
+                  <img class="w-100" [src]="x" />
+                </ng-template>
+              </ng-container>
+            </owl-carousel-o>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="p_details">
+          <h1 class="h4 fw-bolder">{{ oneProduct?.title }}</h1>
+          <hr />
+          <p class="h5">{{ oneProduct?.description }}</p>
+          <hr />
+          <span class="fa-sm text-main">{{ oneProduct?.category.name }}</span>
+          <div class="d-flex align-items-center justify-content-between">
+            <span class="fw-bold text-black">{{ oneProduct?.price }} EGP</span>
+            <div class="d-flex align-items-center">
+              <i class="fa-solid fa-star rating-color me-1"></i>
+              <span>{{ oneProduct?.ratingsAverage }}</span>
+            </div>
+          </div>
+          <button
+            (click)="addProduct(oneProduct._id, btnAdd)"
+            #btnAdd
+            class="btn btn-main mt-4 w-100"
+          >
+            <i class="fa-solid fa-cart-plus me-2"></i> Add To Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

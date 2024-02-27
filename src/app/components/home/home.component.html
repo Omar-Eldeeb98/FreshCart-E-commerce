@@ -1,0 +1,149 @@
+<main class="mb-3">
+  <div class="container-fluid">
+    <div class="row mt-3">
+      <div class="col-md-9">
+        <div class="slider_container">
+          <owl-carousel-o [options]="customOptions">
+            <ng-template carouselSlide
+              ><img
+                height="400"
+                src="assets/images/b1.png"
+                alt="..."
+                class="w-100 rounded"
+              />
+            </ng-template>
+            <ng-template carouselSlide
+              ><img
+                height="400"
+                src="assets/images/slider1.jpeg"
+                alt="..."
+                class="w-100 rounded"
+            /></ng-template>
+            <ng-template carouselSlide
+              ><img
+                height="400"
+                src="assets/images/main-slider-3.jpeg"
+                alt="..."
+                class="w-100 rounded"
+            /></ng-template>
+
+            <ng-template carouselSlide
+              ><img
+                height="400"
+                src="assets/images/b2.png"
+                alt="..."
+                class="w-100 rounded"
+              />
+            </ng-template>
+          </owl-carousel-o>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="d-flex flex-column rounded">
+          <img
+            src="assets/images/slidder22.jpg"
+            alt="..."
+            class="small_img w-100 rounded-top shadow"
+          />
+          <img
+            height="200"
+            src="assets/images/slider00.jpg"
+            alt="..."
+            class="small_img w-100 rounded-bottom shadow"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!--^================================================================================================================================================= -->
+<section class="my-3 mb-5">
+  <div class="container-fluid">
+    <h3 class="fw-bolder mb-3 mb-4">
+      Shop Popular Categories <i class="fa-solid fa-tag ms-2"></i>
+    </h3>
+
+    <owl-carousel-o [options]="customOptions_2">
+      <ng-container *ngFor="let category of categories">
+        <ng-template carouselSlide>
+          <img height="250" [src]="category.image" class="rounded shadow-sm" />
+          <h1 class="h5 mt-3 fw-bold text-center">{{ category.name }}</h1>
+        </ng-template>
+      </ng-container>
+    </owl-carousel-o>
+  </div>
+</section>
+
+<!--^================================================================================================================================================= -->
+
+<section>
+  <div class="container-fluid">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-md-4">
+        <div>
+          <h3 class="fw-bolder mb-3 mb-4">
+            Our Popular Products <i class="fa-solid fa-bag-shopping ms-2"></i>
+          </h3>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div>
+          <!--!==========================PIPE==========================-->
+          <input
+            [(ngModel)]="inputValue"
+            type="text"
+            class="form-control mb-3 mb-4 shadow-lg"
+            placeholder="Search Products Area : "
+          />
+          <!--!========================PIPE============================-->
+        </div>
+      </div>
+    </div>
+    <div class="row gy-3">
+      <div
+        class="col-md-2 cursor-pointer"
+        *ngFor="let product of products | search : inputValue"
+      >
+        <div class="product p-2">
+          <i
+            *ngIf="!wishListData.includes(product._id)"
+            (click)="addToWish(product._id)"
+            class="fa-regular fa-heart wish_icon"
+          ></i>
+          <i
+            *ngIf="wishListData.includes(product._id)"
+            (click)="removeFromWish(product._id)"
+            class="fa-solid fa-heart fa-2x wish_icon text-danger"
+          ></i>
+          <div [routerLink]="['/productDetails', product._id]">
+            <img class="w-100" [src]="product.imageCover" alt="" />
+            <span class="fa-sm text-main">{{ product.category.name }}</span>
+            <h1 id="ptitle" class="h5 fw-bold">
+              {{ product.title.split(" ").slice(0, 2).join(" ") }}
+            </h1>
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="fw-bold text-black">{{ product.price }} EGP</span>
+              <div class="d-flex align-items-center">
+                <i
+                  *ngFor="let number of [1, 2, 3, 4, 5]"
+                  [class.rating-color]="product.ratingsAverage >= number"
+                  class="fa-solid fa-star me-1"
+                ></i>
+
+                <!-- <span>{{ product.ratingsAverage }}</span> -->
+              </div>
+            </div>
+          </div>
+          <button
+            (click)="addProduct(product._id, btnAdd)"
+            #btnAdd
+            class="btn btn-main w-100"
+          >
+            <i class="fa-solid fa-cart-plus me-2"></i> Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

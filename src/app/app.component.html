@@ -1,0 +1,25 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+  <router-outlet></router-outlet>
+</div>
+<app-footer></app-footer>
+
+<button (click)="goTop()" class="btn-up">
+  <i class="fa-solid fa-angle-up fa-bounce"></i>
+</button>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="large"
+  color="green"
+  type="ball-spin"
+  [fullScreen]="true"
+>
+  <p style="color: white" class="mt-5 pt-2">Loading...</p>
+</ngx-spinner>
+
+<!-- <ngx-spinner
+    bdColor="rgba(0, 0, 0, 0.7)"
+    template="<img src='assets/images/freshcart-logo.svg' />"
+  >
+  </ngx-spinner> -->

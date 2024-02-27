@@ -1,0 +1,22 @@
+#ptitle {
+    font-size: 17px !important;
+}
+
+h3 {
+    background-color: #CFE7D9 !important;
+    padding: 8px !important;
+    border-radius: 6px;
+    width: fit-content;
+}
+
+input {
+    padding: 12px !important;
+    border: 2px solid var(--main-color) !important;
+
+}
+
+.small_img {
+    margin-bottom: 10px;
+    height: 195px !important;
+
+}

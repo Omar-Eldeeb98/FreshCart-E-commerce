@@ -1,0 +1,38 @@
+<section>
+  <div class="container-fluid">
+    <div class="row gy-3">
+      <div class="col-md-3 my-2" *ngFor="let x of categories">
+        <div class="categories_div" (click)="getSubCat(x._id)">
+          <img
+            class="w-100 rounded shadow"
+            height="300"
+            [src]="x.image"
+            alt="x.name"
+          />
+          <p
+            class="shadow rounded p-2 text-center mt-3 fw-bold h4 text-main border border-1 border-success"
+          >
+            {{ x.name }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="d-block my-4" />
+
+<section *ngIf="subCategories2 > 0" class="my-3">
+  <div class="container-fluid">
+    <h2 class="fw-bold text-dark mb-4">Sub Categories :</h2>
+    <div class="row gy-3 justify-content-center">
+      <div class="col-md-4" *ngFor="let y of subCategories">
+        <div>
+          <h1 class="h4 text-center rounded bg-dark text-main p-3 shadow">
+            {{ y.name }}
+          </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

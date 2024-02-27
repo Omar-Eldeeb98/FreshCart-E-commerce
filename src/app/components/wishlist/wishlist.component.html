@@ -1,0 +1,60 @@
+<section
+  *ngIf="products; else msg"
+  class="my-4 shadow-lg rounded p-4 border border-1 border-success"
+>
+  <div class="container-fluid">
+    <h3 class="fw-bolder mb-3 mb-4 text-main">
+      Your Wish List :
+      <i class="ms-2 fa-solid fa-heart text-danger"></i>
+    </h3>
+
+    <div class="row gy-3">
+      <div class="col-md-2 cursor-pointer" *ngFor="let product of products">
+        <div class="product p-2">
+          <i
+            *ngIf="!wishListData.includes(product._id)"
+            (click)="addToWish(product._id)"
+            class="fa-regular fa-heart wish_icon"
+          >
+          </i>
+          <i
+            *ngIf="wishListData.includes(product._id)"
+            (click)="removeFromWish(product._id)"
+            class="fa-solid fa-heart fa-2x wish_icon text-danger"
+          ></i>
+          <div [routerLink]="['/productDetails', product._id]">
+            <img class="w-100" [src]="product.imageCover" alt="..." />
+            <span class="fa-sm text-main">{{ product.category.name }}</span>
+            <h1 id="ptitle" class="h6 fw-bold">
+              {{ product.title.split(" ").slice(0, 2).join(" ") }}
+            </h1>
+            <div class="d-flex align-items-center justify-content-between">
+              <span class="fw-bold text-black">{{ product.price }} EGP</span>
+              <div class="d-flex align-items-center">
+                <i
+                  *ngFor="let number of [1, 2, 3, 4, 5]"
+                  [class.rating-color]="product.ratingsAverage >= number"
+                  class="fa-solid fa-star me-1"
+                ></i>
+
+                <!-- <span>{{ product.ratingsAverage }}</span> -->
+              </div>
+            </div>
+          </div>
+          <button
+            (click)="addProduct(product._id, btnAdd)"
+            #btnAdd
+            class="btn btn-main w-100"
+          >
+            <i class="fa-solid fa-cart-plus me-2"></i> Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #msg>
+  <img src="assets/images/wish.png" alt="empty" class="d-block mx-auto mb-3" />
+  <h2 class="text-center text-danger fw-bolder">Wish List is Empty ...</h2>
+</ng-template>
